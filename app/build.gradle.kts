@@ -4,11 +4,7 @@ plugins {
 
 android {
     namespace = "com.marcosanjos.mygaragem"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.marcosanjos.mygaragem"
@@ -33,7 +29,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,7 +41,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.coil)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson)
 }

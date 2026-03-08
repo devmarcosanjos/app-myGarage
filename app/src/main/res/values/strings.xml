@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Garagem</string>
+    <string name="add_item">Adicionar novo item</string>
 </resources>
