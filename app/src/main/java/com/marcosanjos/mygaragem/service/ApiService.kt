@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("cars")
+    @GET("car")
     suspend fun getCars(): List<Car>
 }
