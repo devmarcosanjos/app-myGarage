@@ -6,12 +6,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marcosanjos.mygaragem.adapter.CarAdapter
 import com.marcosanjos.mygaragem.databinding.ActivityMainBinding
+import com.marcosanjos.mygaragem.model.Car
+import com.marcosanjos.mygaragem.service.Result
 import com.marcosanjos.mygaragem.service.RetrofitClient
+import com.marcosanjos.mygaragem.service.safeApiCall
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,15 +57,24 @@ class MainActivity : AppCompatActivity() {
     private fun fetchCars() {
         binding.swipeRefreshLayout.isRefreshing = true
         
-        lifecycleScope.launch {
-            try {
-                val cars = RetrofitClient.apiService.getCars()
-                carAdapter.submitList(cars)
-            } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "Erro ao carregar carros: ${e.message}", Toast.LENGTH_SHORT).show()
-            } finally {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = safeApiCall { RetrofitClient.apiService.getCars() }
+
+            withContext(Dispatchers.Main) {
                 binding.swipeRefreshLayout.isRefreshing = false
+                when (result) {
+                    is Result.Success -> handleOnSuccess(result.data)
+                    is Result.Error -> handleError(result.code, result.message)
+                }
             }
         }
+    }
+
+    private fun handleOnSuccess(cars: List<Car>) {
+        carAdapter.submitList(cars)
+    }
+
+    private fun handleError(code: Int, message: String) {
+        Toast.makeText(this, "Erro ($code): $message", Toast.LENGTH_SHORT).show()
     }
 }
