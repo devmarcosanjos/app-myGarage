@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.coil)
+    implementation(libs.picasso)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

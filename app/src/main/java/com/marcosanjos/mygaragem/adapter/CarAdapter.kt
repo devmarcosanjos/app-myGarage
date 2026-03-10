@@ -1,46 +1,51 @@
 package com.marcosanjos.mygaragem.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.marcosanjos.mygaragem.databinding.ItemCarBinding
+import com.marcosanjos.mygaragem.R
 import com.marcosanjos.mygaragem.model.Car
+import com.marcosanjos.mygaragem.ui.CircleTransform
+import com.squareup.picasso.Picasso
 
-class CarAdapter : ListAdapter<Car, CarAdapter.CarViewHolder>(CarDiffCallback()) {
+class CarAdapter(
+    private val cars: List<Car>
+) : RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
+
+    class CarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivCar: ImageView = view.findViewById(R.id.ivCar)
+        val tvCarName: TextView = view.findViewById(R.id.tvCarName)
+        val tvCarYear: TextView = view.findViewById(R.id.tvCarYear)
+        val tvCarLicence: TextView = view.findViewById(R.id.tvCarLicence)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
-        val binding = ItemCarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CarViewHolder(binding)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_car, parent, false)
+        return CarViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
+        val car = cars[position]
 
-    class CarViewHolder(private val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(car: Car) {
-            binding.tvCarName.text = car.name ?: "Sem nome"
-            binding.tvCarYear.text = "Ano: ${car.year ?: "N/A"}"
-            binding.tvCarLicence.text = "Placa: ${car.licence ?: "N/A"}"
-            
-            binding.ivCar.load(car.imageUrl) {
-                crossfade(true)
-                placeholder(android.R.drawable.ic_menu_report_image)
-                error(android.R.drawable.stat_notify_error)
-            }
+        holder.tvCarName.text = car.name ?: ""
+        holder.tvCarYear.text = car.year ?: ""
+        holder.tvCarLicence.text = car.licence ?: ""
+        
+        if (!car.imageUrl.isNullOrBlank()) {
+            Picasso.get()
+                .load(car.imageUrl)
+                .placeholder(android.R.drawable.ic_menu_report_image)
+                .error(android.R.drawable.stat_notify_error)
+                .transform(CircleTransform())
+                .into(holder.ivCar)
+        } else {
+            holder.ivCar.setImageResource(android.R.drawable.ic_menu_report_image)
         }
     }
 
-    class CarDiffCallback : DiffUtil.ItemCallback<Car>() {
-        override fun areItemsTheSame(oldItem: Car, newItem: Car): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Car, newItem: Car): Boolean {
-            return oldItem == newItem
-        }
-    }
+    override fun getItemCount(): Int = cars.size
 }
