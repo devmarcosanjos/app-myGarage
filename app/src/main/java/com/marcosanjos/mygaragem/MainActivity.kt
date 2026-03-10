@@ -1,5 +1,6 @@
 package com.marcosanjos.mygaragem
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -47,14 +48,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            Log.d("MainActivity", "Atualizando lista...")
             fetchCars()
         }
     }
 
     private fun fetchCars() {
         binding.swipeRefreshLayout.isRefreshing = true
-        Log.d("MainActivity", "Buscando carros da API...")
         
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall { RetrofitClient.apiService.getCars() }
@@ -62,14 +61,8 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 binding.swipeRefreshLayout.isRefreshing = false
                 when (result) {
-                    is Result.Success -> {
-                        Log.d("MainActivity", "Sucesso! Recebidos ${result.data.size} carros")
-                        handleOnSuccess(result.data)
-                    }
-                    is Result.Error -> {
-                        Log.e("MainActivity", "Erro na API: ${result.message} (Código: ${result.code})")
-                        handleError(result.code, result.message)
-                    }
+                    is Result.Success -> handleOnSuccess(result.data)
+                    is Result.Error -> handleError(result.code, result.message)
                 }
             }
         }
@@ -77,11 +70,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleOnSuccess(cars: List<Car>) {
         if (cars.isEmpty()) {
-            Log.w("MainActivity", "A lista de carros veio vazia.")
             Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()
         }
-        val adapter = CarAdapter(cars)
-        binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.adapter = CarAdapter(cars) { car -> 
+            Log.d("MainActivity", "Clicou no carro id: ${car.id}")
+            
+            val intent = Intent(this, CarDetailsActivity::class.java)
+            intent.putExtra("car_id", car.id) // AGORA PASSANDO 'car_id'
+            startActivity(intent)
+        }
     }
 
     private fun handleError(code: Int, message: String) {

@@ -12,7 +12,8 @@ import com.marcosanjos.mygaragem.ui.CircleTransform
 import com.squareup.picasso.Picasso
 
 class CarAdapter(
-    private val cars: List<Car>
+    private val cars: List<Car>,
+    private val onItemClick: (Car) -> Unit // Adicionado parâmetro de clique
 ) : RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
 
     class CarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,6 +45,11 @@ class CarAdapter(
                 .into(holder.ivCar)
         } else {
             holder.ivCar.setImageResource(android.R.drawable.ic_menu_report_image)
+        }
+
+        // Configura o clique no item
+        holder.itemView.setOnClickListener {
+            onItemClick(car)
         }
     }
 
