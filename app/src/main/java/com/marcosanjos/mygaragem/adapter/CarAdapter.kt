@@ -1,15 +1,15 @@
 package com.marcosanjos.mygaragem.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.marcosanjos.mygaragem.R
 import com.marcosanjos.mygaragem.model.Car
+import com.marcosanjos.mygaragem.ui.CircleTransform
+import com.squareup.picasso.Picasso
 
 class CarAdapter(
     private val cars: List<Car>
@@ -23,28 +23,27 @@ class CarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
-        return try {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_car, parent, false)
-            CarViewHolder(view)
-        } catch (e: Exception) {
-            Log.e("CarAdapter", "Erro ao inflar layout: ${e.message}")
-            throw e
-        }
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_car, parent, false)
+        return CarViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
         val car = cars[position]
-        Log.d("CarAdapter", "Binding carro: ${car.name}")
 
-        holder.tvCarName.text = car.name ?: "Sem nome"
-        holder.tvCarYear.text = "Ano: ${car.year ?: "N/A"}"
-        holder.tvCarLicence.text = "Placa: ${car.licence ?: "N/A"}"
+        holder.tvCarName.text = car.name ?: ""
+        holder.tvCarYear.text = car.year ?: ""
+        holder.tvCarLicence.text = car.licence ?: ""
         
-        holder.ivCar.load(car.imageUrl) {
-            crossfade(true)
-            placeholder(android.R.drawable.ic_menu_report_image)
-            error(android.R.drawable.stat_notify_error)
+        if (!car.imageUrl.isNullOrBlank()) {
+            Picasso.get()
+                .load(car.imageUrl)
+                .placeholder(android.R.drawable.ic_menu_report_image)
+                .error(android.R.drawable.stat_notify_error)
+                .transform(CircleTransform())
+                .into(holder.ivCar)
+        } else {
+            holder.ivCar.setImageResource(android.R.drawable.ic_menu_report_image)
         }
     }
 
