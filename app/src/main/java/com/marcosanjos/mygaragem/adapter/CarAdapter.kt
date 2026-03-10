@@ -1,46 +1,52 @@
 package com.marcosanjos.mygaragem.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.marcosanjos.mygaragem.databinding.ItemCarBinding
+import com.marcosanjos.mygaragem.R
 import com.marcosanjos.mygaragem.model.Car
 
-class CarAdapter : ListAdapter<Car, CarAdapter.CarViewHolder>(CarDiffCallback()) {
+class CarAdapter(
+    private val cars: List<Car>
+) : RecyclerView.Adapter<CarAdapter.CarViewHolder>() {
+
+    class CarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivCar: ImageView = view.findViewById(R.id.ivCar)
+        val tvCarName: TextView = view.findViewById(R.id.tvCarName)
+        val tvCarYear: TextView = view.findViewById(R.id.tvCarYear)
+        val tvCarLicence: TextView = view.findViewById(R.id.tvCarLicence)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarViewHolder {
-        val binding = ItemCarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CarViewHolder(binding)
+        return try {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_car, parent, false)
+            CarViewHolder(view)
+        } catch (e: Exception) {
+            Log.e("CarAdapter", "Erro ao inflar layout: ${e.message}")
+            throw e
+        }
     }
 
     override fun onBindViewHolder(holder: CarViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
+        val car = cars[position]
+        Log.d("CarAdapter", "Binding carro: ${car.name}")
 
-    class CarViewHolder(private val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(car: Car) {
-            binding.tvCarName.text = car.name ?: "Sem nome"
-            binding.tvCarYear.text = "Ano: ${car.year ?: "N/A"}"
-            binding.tvCarLicence.text = "Placa: ${car.licence ?: "N/A"}"
-            
-            binding.ivCar.load(car.imageUrl) {
-                crossfade(true)
-                placeholder(android.R.drawable.ic_menu_report_image)
-                error(android.R.drawable.stat_notify_error)
-            }
+        holder.tvCarName.text = car.name ?: "Sem nome"
+        holder.tvCarYear.text = "Ano: ${car.year ?: "N/A"}"
+        holder.tvCarLicence.text = "Placa: ${car.licence ?: "N/A"}"
+        
+        holder.ivCar.load(car.imageUrl) {
+            crossfade(true)
+            placeholder(android.R.drawable.ic_menu_report_image)
+            error(android.R.drawable.stat_notify_error)
         }
     }
 
-    class CarDiffCallback : DiffUtil.ItemCallback<Car>() {
-        override fun areItemsTheSame(oldItem: Car, newItem: Car): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Car, newItem: Car): Boolean {
-            return oldItem == newItem
-        }
-    }
+    override fun getItemCount(): Int = cars.size
 }
