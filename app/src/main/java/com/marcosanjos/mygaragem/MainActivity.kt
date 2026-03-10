@@ -1,5 +1,6 @@
 package com.marcosanjos.mygaragem
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.jvm.java
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,11 +82,17 @@ class MainActivity : AppCompatActivity() {
             Log.w("MainActivity", "A lista de carros veio vazia.")
             Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()
         }
-        val adapter = CarAdapter(cars)
-        binding.recyclerView.adapter = adapter
+
+        binding.recyclerView.adapter = CarAdapter(cars) {
+            cars -> Log.d("MainActivity", "Clicou no carro: ${cars.name}")
+              val intent = Intent(this, CarDetailsActivity::class.java)
+              intent.putExtra("car", cars)
+              startActivity(intent)
+        }
     }
 
     private fun handleError(code: Int, message: String) {
         Toast.makeText(this, "Erro ($code): $message", Toast.LENGTH_SHORT).show()
+
     }
 }
