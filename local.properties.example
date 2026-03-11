@@ -1,0 +1,10 @@
+## This is an example file.
+# Copy this file and rename it to 'local.properties' in the same folder.
+# Then, replace the placeholder values with your actual API keys.
+
+# Location of the SDK. (On Windows, use double backslashes)
+# sdk.dir=C\:\\Users\\YourUser\\AppData\\Local\\Android\\Sdk
+
+# Google Maps API Key
+# You can get one at: https://console.cloud.google.com/google/maps-apis/credentials
+MAPS_API_KEY=YOUR_GOOGLE_MAPS_KEY_HERE
