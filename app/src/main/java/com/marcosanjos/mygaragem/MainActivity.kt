@@ -68,6 +68,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun requestLocationPermission() {
+        // inicializa o FusedLocationClinet
+
+    }
+
+
+
     private fun handleOnSuccess(cars: List<Car>) {
         if (cars.isEmpty()) {
             Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()

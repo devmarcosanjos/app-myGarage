@@ -50,4 +50,8 @@ dependencies {
 
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson)
+
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.auth)
 }
