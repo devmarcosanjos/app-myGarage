@@ -1,9 +1,9 @@
 package com.marcosanjos.mygaragem
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,6 +30,7 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityCarDetailsBinding
     private var googleMap: GoogleMap? = null
     private var carLocation: LatLng? = null
+    private var currentCarId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,15 +46,46 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setupToolbar()
 
-        // Inicializa o fragmento do mapa
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val carId = intent.getStringExtra("car_id")
-        if (!carId.isNullOrEmpty()) {
-            fetchCarDetails(carId)
-        } else {
-            Toast.makeText(this, "ID do carro é nulo", Toast.LENGTH_SHORT).show()
+        currentCarId = intent.getStringExtra("car_id")
+        if (!currentCarId.isNullOrEmpty()) {
+            fetchCarDetails(currentCarId!!)
+        }
+
+        binding.btnDeleteCar.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Excluir Carro")
+            .setMessage("Tem certeza que deseja excluir este carro?")
+            .setPositiveButton("Sim") { _, _ ->
+                currentCarId?.let { deleteCar(it) }
+            }
+            .setNegativeButton("Não", null)
+            .show()
+    }
+
+    private fun deleteCar(id: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = safeApiCall { RetrofitClient.apiService.deleteCar(id) }
+
+            withContext(Dispatchers.Main) {
+                when (result) {
+                    is Result.Success -> {
+                        Toast.makeText(this@CarDetailsActivity, "Carro excluído!", Toast.LENGTH_SHORT).show()
+                        setResult(RESULT_OK) // Avisa a MainActivity que houve mudança
+                        finish() // Volta para a tela anterior
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(this@CarDetailsActivity, "Erro: ${result.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
     }
 
@@ -65,8 +97,6 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbarDetails)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        
         binding.toolbarDetails.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
@@ -75,24 +105,17 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun fetchCarDetails(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall { RetrofitClient.apiService.getCarById(id) }
-
             withContext(Dispatchers.Main) {
-                when (result) {
-                    is Result.Success -> {
-                        val car = result.data.value
-                        if (car != null) {
-                            setupUI(car)
-                            // Salva a localização para o mapa
-                            val lat = car.place?.lat
-                            val long = car.place?.long
-                            if (lat != null && long != null) {
-                                carLocation = LatLng(lat, long)
+                if (result is Result.Success) {
+                    val car = result.data.value
+                    if (car != null) {
+                        setupUI(car)
+                        car.place?.let {
+                            if (it.lat != null && it.long != null) {
+                                carLocation = LatLng(it.lat, it.long)
                                 updateMapLocation()
                             }
                         }
-                    }
-                    is Result.Error -> {
-                        Toast.makeText(this@CarDetailsActivity, "Erro: ${result.message}", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -102,21 +125,15 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun updateMapLocation() {
         val map = googleMap ?: return
         val location = carLocation ?: return
-
-        map.addMarker(MarkerOptions().position(location).title("Localização do Carro"))
+        map.clear()
+        map.addMarker(MarkerOptions().position(location).title("Localização"))
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
     private fun setupUI(car: Car) {
-        binding.tvDetailName.text = car.name ?: "Sem nome"
-        binding.tvDetailYear.text = "Ano: ${car.year ?: "N/A"}"
-        binding.tvDetailLicence.text = "Placa: ${car.licence ?: "N/A"}"
-        
-        Picasso.get()
-            .load(car.imageUrl)
-            .placeholder(android.R.drawable.ic_menu_report_image)
-            .error(android.R.drawable.stat_notify_error)
-            .transform(CircleTransform())
-            .into(binding.ivDetailCar)
+        binding.tvDetailName.text = car.name
+        binding.tvDetailYear.text = "Ano: ${car.year}"
+        binding.tvDetailLicence.text = "Placa: ${car.licence}"
+        Picasso.get().load(car.imageUrl).transform(CircleTransform()).into(binding.ivDetailCar)
     }
 }

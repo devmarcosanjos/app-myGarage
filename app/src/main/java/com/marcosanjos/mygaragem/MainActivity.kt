@@ -32,7 +32,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     
-    // O ActivityResultLauncher DEVE ser inicializado aqui ou no onCreate
+    // Launcher para capturar o retorno da tela de detalhes
+    private val detailsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            fetchCars() // Atualiza a lista se algo foi deletado na outra tela
+        }
+    }
+
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -56,14 +64,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Inicializa o cliente de localização
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         setupRecyclerView()
         setupSwipeRefresh()
         fetchCars()
-        
-        // Tenta obter a localização ao iniciar (pedirá permissão se necessário)
         checkLocationPermissionAndRequest()
     }
 
@@ -106,7 +111,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLastLocation() {
-        // Verificação dupla de segurança para o compilador
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
@@ -114,11 +118,7 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                val latitude = location.latitude
-                val longitude = location.longitude
-                Log.d("MainActivity", "Latitude: $latitude, Longitude: $longitude")
-            } else {
-                Log.d("MainActivity", "Localização está nula (pode estar desativada no dispositivo)")
+                Log.d("MainActivity", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Erro ao obter a localização", Toast.LENGTH_SHORT).show()
@@ -131,11 +131,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.recyclerView.adapter = CarAdapter(cars) { car -> 
-            Log.d("MainActivity", "Clicou no carro id: ${car.id}")
-            
             val intent = Intent(this, CarDetailsActivity::class.java)
             intent.putExtra("car_id", car.id)
-            startActivity(intent)
+            // IMPORTANTE: Use o detailsLauncher para abrir a tela
+            detailsLauncher.launch(intent)
         }
     }
 

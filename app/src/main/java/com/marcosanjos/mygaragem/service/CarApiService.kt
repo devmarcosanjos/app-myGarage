@@ -2,6 +2,8 @@ package com.marcosanjos.mygaragem.service
 
 import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.model.CarDetailResponse
+import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -12,4 +14,7 @@ interface CarApiService {
 
     @GET("car/{id}")
     suspend fun getCarById(@Path("id") id: String): CarDetailResponse
+
+    @DELETE("car/{id}")
+    suspend fun deleteCar(@Path("id") id: String): Response<Unit>
 }
