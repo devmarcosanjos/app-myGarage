@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     
-    // Launcher para capturar o retorno da tela de detalhes
+    // Launcher para capturar o retorno da tela de detalhes ou adição
     private val detailsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            fetchCars() // Atualiza a lista se algo foi deletado na outra tela
+            fetchCars() // Atualiza a lista se algo foi alterado ou adicionado
         }
     }
 
@@ -66,10 +66,21 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        setupToolbar()
         setupRecyclerView()
         setupSwipeRefresh()
         fetchCars()
         checkLocationPermissionAndRequest()
+
+        // Configura o clique no FAB para adicionar novo carro
+        binding.fabAddCar.setOnClickListener {
+            val intent = Intent(this, AddCarActivity::class.java)
+            detailsLauncher.launch(intent)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbarMain)
     }
 
     private fun setupRecyclerView() {
@@ -133,7 +144,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = CarAdapter(cars) { car -> 
             val intent = Intent(this, CarDetailsActivity::class.java)
             intent.putExtra("car_id", car.id)
-            // IMPORTANTE: Use o detailsLauncher para abrir a tela
             detailsLauncher.launch(intent)
         }
     }

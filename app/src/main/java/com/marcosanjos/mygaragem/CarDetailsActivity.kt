@@ -1,8 +1,10 @@
 package com.marcosanjos.mygaragem
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,7 +32,18 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityCarDetailsBinding
     private var googleMap: GoogleMap? = null
     private var carLocation: LatLng? = null
-    private var currentCarId: String? = null
+    private var currentCar: Car? = null
+
+    // Launcher para a tela de edição
+    private val editCarLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            // Se editou, recarrega os detalhes e avisa a Main que houve mudança
+            currentCar?.id?.let { fetchCarDetails(it) }
+            setResult(RESULT_OK) 
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,22 +62,28 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        currentCarId = intent.getStringExtra("car_id")
-        if (!currentCarId.isNullOrEmpty()) {
-            fetchCarDetails(currentCarId!!)
+        val carId = intent.getStringExtra("car_id")
+        if (!carId.isNullOrEmpty()) {
+            fetchCarDetails(carId)
         }
 
         binding.btnDeleteCar.setOnClickListener {
             showDeleteConfirmationDialog()
+        }
+
+        binding.btnEditCar.setOnClickListener {
+            val intent = Intent(this, EditCarActivity::class.java)
+            intent.putExtra("car", currentCar) // Passa o objeto Car atual para editar
+            editCarLauncher.launch(intent)
         }
     }
 
     private fun showDeleteConfirmationDialog() {
         AlertDialog.Builder(this)
             .setTitle("Excluir Carro")
-            .setMessage("Tem certeza que deseja excluir este carro?")
+            .setMessage("Tem certeza que deseja excluir?")
             .setPositiveButton("Sim") { _, _ ->
-                currentCarId?.let { deleteCar(it) }
+                currentCar?.id?.let { deleteCar(it) }
             }
             .setNegativeButton("Não", null)
             .show()
@@ -73,17 +92,11 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun deleteCar(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall { RetrofitClient.apiService.deleteCar(id) }
-
             withContext(Dispatchers.Main) {
-                when (result) {
-                    is Result.Success -> {
-                        Toast.makeText(this@CarDetailsActivity, "Carro excluído!", Toast.LENGTH_SHORT).show()
-                        setResult(RESULT_OK) // Avisa a MainActivity que houve mudança
-                        finish() // Volta para a tela anterior
-                    }
-                    is Result.Error -> {
-                        Toast.makeText(this@CarDetailsActivity, "Erro: ${result.message}", Toast.LENGTH_LONG).show()
-                    }
+                if (result is Result.Success) {
+                    Toast.makeText(this@CarDetailsActivity, "Carro excluído!", Toast.LENGTH_SHORT).show()
+                    setResult(RESULT_OK)
+                    finish()
                 }
             }
         }
@@ -109,6 +122,7 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (result is Result.Success) {
                     val car = result.data.value
                     if (car != null) {
+                        currentCar = car
                         setupUI(car)
                         car.place?.let {
                             if (it.lat != null && it.long != null) {
