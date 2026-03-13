@@ -21,7 +21,6 @@ import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.service.Result
 import com.marcosanjos.mygaragem.service.RetrofitClient
 import com.marcosanjos.mygaragem.service.safeApiCall
-import com.marcosanjos.mygaragem.ui.CircleTransform
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -179,7 +178,6 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             .load(car.imageUrl)
             .placeholder(R.drawable.ic_download)
             .error(R.drawable.ic_error)
-            .transform(CircleTransform())
             .into(binding.ivDetailCar)
     }
 }
