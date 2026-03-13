@@ -6,17 +6,22 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.marcosanjos.mygaragem.adapter.CarAdapter
+import com.marcosanjos.mygaragem.database.DatabaseBuilder
+import com.marcosanjos.mygaragem.database.UserLocation
 import com.marcosanjos.mygaragem.databinding.ActivityMainBinding
 import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.service.Result
@@ -32,7 +37,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     
-    // O ActivityResultLauncher DEVE ser inicializado aqui ou no onCreate
+    // Launcher para capturar o retorno da tela de detalhes ou adição
+    private val detailsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            fetchCars() // Atualiza a lista se algo foi alterado ou adicionado
+        }
+    }
+
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -56,15 +69,24 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Inicializa o cliente de localização
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        DatabaseBuilder.getInstance(this)
 
+        setupToolbar()
         setupRecyclerView()
         setupSwipeRefresh()
         fetchCars()
-        
-        // Tenta obter a localização ao iniciar (pedirá permissão se necessário)
         checkLocationPermissionAndRequest()
+
+        // Configura o clique no FAB para adicionar novo carro
+        binding.fabAddCar.setOnClickListener {
+            val intent = Intent(this, AddCarActivity::class.java)
+            detailsLauncher.launch(intent)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbarMain)
     }
 
     private fun setupRecyclerView() {
@@ -106,7 +128,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLastLocation() {
-        // Verificação dupla de segurança para o compilador
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
@@ -114,11 +135,15 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                val latitude = location.latitude
-                val longitude = location.longitude
-                Log.d("MainActivity", "Latitude: $latitude, Longitude: $longitude")
-            } else {
-                Log.d("MainActivity", "Localização está nula (pode estar desativada no dispositivo)")
+                Log.d("MainActivity", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
+                CoroutineScope(Dispatchers.IO).launch {
+                    DatabaseBuilder.getInstance().userLocationDao().insert(
+                        UserLocation(
+                            latitude = location.latitude,
+                            longitude = location.longitude
+                        )
+                    )
+                }
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Erro ao obter a localização", Toast.LENGTH_SHORT).show()
@@ -131,15 +156,36 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.recyclerView.adapter = CarAdapter(cars) { car -> 
-            Log.d("MainActivity", "Clicou no carro id: ${car.id}")
-            
             val intent = Intent(this, CarDetailsActivity::class.java)
             intent.putExtra("car_id", car.id)
-            startActivity(intent)
+            detailsLauncher.launch(intent)
         }
     }
 
     private fun handleError(code: Int, message: String) {
         Toast.makeText(this, "Erro ($code): $message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_logout -> {
+                onLogout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun onLogout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
