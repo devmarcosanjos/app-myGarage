@@ -127,6 +127,21 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        updateMapLocation()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbarDetails)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        
+        binding.toolbarDetails.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
     private fun fetchCarDetails(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall { RetrofitClient.apiService.getCarById(id) }
