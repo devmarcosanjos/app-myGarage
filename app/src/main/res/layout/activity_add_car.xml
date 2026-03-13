@@ -10,8 +10,9 @@
         android:id="@+id/toolbarAdd"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        android:background="@color/racing_red"
+        app:navigationIconTint="@color/white"
+        app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Adicionar Novo Carro" />
 
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Imagem do Carro"
+                android:textColor="@color/racing_red"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -76,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"
-                android:background="#EEEEEE"
+                android:background="@color/divider"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
@@ -88,7 +90,7 @@
 
                 <Button
                     android:id="@+id/btnTakePhoto"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MyGaragem.Button.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,7 +99,7 @@
 
                 <Button
                     android:id="@+id/btnAddUrl"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MyGaragem.Button.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -124,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Localização (Toque no mapa para definir)"
+                android:textColor="@color/racing_red"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -148,6 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Lat: 0.0, Long: 0.0"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
         </LinearLayout>

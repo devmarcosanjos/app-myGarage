@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var allCars: List<Car> = emptyList()
     
     // Launcher para capturar o retorno da tela de detalhes ou adição
     private val detailsLauncher = registerForActivityResult(
@@ -71,10 +72,12 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         DatabaseBuilder.getInstance(this)
+        FavoritesManager.init(this)
 
         setupToolbar()
         setupRecyclerView()
         setupSwipeRefresh()
+        setupFilters()
         fetchCars()
         checkLocationPermissionAndRequest()
 
@@ -93,7 +96,30 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
+    private fun setupFilters() {
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
+            applyCurrentFilter()
+        }
+    }
+
+    private fun applyCurrentFilter() {
+        val checkedId = binding.chipGroupFilter.checkedChipId
+        val filtered = when (checkedId) {
+            R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
+            R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
+            R.id.chipFavorites -> {
+                val favIds = FavoritesManager.getFavoriteIds()
+                allCars.filter { favIds.contains(it.id) }
+            }
+            else -> allCars // Recentes = ordem original da API
+        }
+        showCars(filtered)
+    }
+
     private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.racing_red)
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white)
         binding.swipeRefreshLayout.setOnRefreshListener {
             fetchCars()
         }
@@ -155,11 +181,25 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()
         }
 
-        binding.recyclerView.adapter = CarAdapter(cars) { car -> 
-            val intent = Intent(this, CarDetailsActivity::class.java)
-            intent.putExtra("car_id", car.id)
-            detailsLauncher.launch(intent)
-        }
+        allCars = cars
+        applyCurrentFilter()
+    }
+
+    private fun showCars(cars: List<Car>) {
+        binding.recyclerView.adapter = CarAdapter(
+            cars = cars,
+            onItemClick = { car ->
+                val intent = Intent(this, CarDetailsActivity::class.java)
+                intent.putExtra("car_id", car.id)
+                detailsLauncher.launch(intent)
+            },
+            onFavoriteChanged = {
+                // Se estiver no filtro de favoritos, atualiza a lista
+                if (binding.chipGroupFilter.checkedChipId == R.id.chipFavorites) {
+                    applyCurrentFilter()
+                }
+            }
+        )
     }
 
     private fun handleError(code: Int, message: String) {

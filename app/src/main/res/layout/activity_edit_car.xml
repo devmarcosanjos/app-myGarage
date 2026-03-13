@@ -10,8 +10,9 @@
         android:id="@+id/toolbarEdit"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        android:background="@color/racing_red"
+        app:navigationIconTint="@color/white"
+        app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Editar Carro" />
 
@@ -32,12 +33,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"
+                android:background="@color/divider"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <Button
                 android:id="@+id/btnEditTakePhoto"
+                style="@style/Widget.MyGaragem.Button.Outlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tirar Nova Foto"
@@ -96,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Localização (Latitude e Longitude)"
+                android:textColor="@color/racing_red"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

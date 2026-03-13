@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "545666496160",
+    "project_id": "app-mygarage-9e5db",
+    "storage_bucket": "app-mygarage-9e5db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545666496160:android:d0b02060432082c4fabbc5",
+        "android_client_info": {
+          "package_name": "com.marcosanjos.mygaragem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCms3hvoSNrmdaq2cahx3SP4Xsg4p91oRo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
