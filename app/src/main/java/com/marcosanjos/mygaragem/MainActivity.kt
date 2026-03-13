@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         DatabaseBuilder.getInstance(this)
+        FavoritesManager.init(this)
 
         setupToolbar()
         setupRecyclerView()
@@ -98,13 +99,22 @@ class MainActivity : AppCompatActivity() {
     private fun setupFilters() {
         binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
             if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
-            val sorted = when (checkedIds.first()) {
-                R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
-                R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
-                else -> allCars // Recentes = ordem original da API
-            }
-            showCars(sorted)
+            applyCurrentFilter()
         }
+    }
+
+    private fun applyCurrentFilter() {
+        val checkedId = binding.chipGroupFilter.checkedChipId
+        val filtered = when (checkedId) {
+            R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
+            R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
+            R.id.chipFavorites -> {
+                val favIds = FavoritesManager.getFavoriteIds()
+                allCars.filter { favIds.contains(it.id) }
+            }
+            else -> allCars // Recentes = ordem original da API
+        }
+        showCars(filtered)
     }
 
     private fun setupSwipeRefresh() {
@@ -172,23 +182,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         allCars = cars
-
-        // Aplica o filtro atual
-        val checkedId = binding.chipGroupFilter.checkedChipId
-        val sorted = when (checkedId) {
-            R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
-            R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
-            else -> allCars
-        }
-        showCars(sorted)
+        applyCurrentFilter()
     }
 
     private fun showCars(cars: List<Car>) {
-        binding.recyclerView.adapter = CarAdapter(cars) { car ->
-            val intent = Intent(this, CarDetailsActivity::class.java)
-            intent.putExtra("car_id", car.id)
-            detailsLauncher.launch(intent)
-        }
+        binding.recyclerView.adapter = CarAdapter(
+            cars = cars,
+            onItemClick = { car ->
+                val intent = Intent(this, CarDetailsActivity::class.java)
+                intent.putExtra("car_id", car.id)
+                detailsLauncher.launch(intent)
+            },
+            onFavoriteChanged = {
+                // Se estiver no filtro de favoritos, atualiza a lista
+                if (binding.chipGroupFilter.checkedChipId == R.id.chipFavorites) {
+                    applyCurrentFilter()
+                }
+            }
+        )
     }
 
     private fun handleError(code: Int, message: String) {

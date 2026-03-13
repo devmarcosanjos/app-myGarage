@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.core.widget.doAfterTextChanged
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.FirebaseException
@@ -47,23 +47,20 @@ class LoginActivity : AppCompatActivity() {
         setupView()
     }
 
-    private fun verifyLoggedUser() {
-        if (auth.currentUser != null) {
-            navigateToMainActivity()
-        }
-    }
-
     private fun setupView() {
+        // Desabilita botão SMS se não tiver número
         binding.btnSendSms.isEnabled = false
 
         binding.etPhone.doAfterTextChanged { text ->
             val phone = text.toString().trim()
-            binding.btnSendSms.isEnabled = phone.length > 3
+            // Habilita somente se tiver mais que apenas o "+55"
+            binding.btnSendSms.isEnabled = phone.length > 4
         }
 
         binding.btnSendSms.setOnClickListener {
             sendVerificationCode()
         }
+
         binding.btnVerifySms.setOnClickListener {
             verifyCode()
         }

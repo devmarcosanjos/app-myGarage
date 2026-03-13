@@ -25,16 +25,16 @@
         android:layout_height="match_parent"
         android:padding="32dp">
 
-        <!-- Título e subtítulo centralizados verticalmente -->
+        <!-- Título e subtítulo centralizados -->
         <TextView
             android:id="@+id/tvLoginTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
             android:text="My Garagem"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"
-            android:fontFamily="sans-serif-black"
             app:layout_constraintBottom_toTopOf="@id/tvLoginSubtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +54,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLoginTitle" />
 
-        <!-- Inputs e botões na parte inferior -->
+        <!-- Inputs na parte inferior -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPhone"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:layout_marginHorizontal="8dp"
@@ -65,7 +65,9 @@
             app:boxStrokeColor="@color/racing_red_light"
             app:hintTextColor="@color/racing_red_light"
             android:textColorHint="@color/text_secondary"
-            app:layout_constraintBottom_toTopOf="@id/btnSendSms">
+            app:layout_constraintBottom_toTopOf="@id/btnSendSms"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPhone"
@@ -78,16 +80,18 @@
 
         <Button
             android:id="@+id/btnSendSms"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginHorizontal="8dp"
             android:text="Enviar SMS"
-            app:layout_constraintBottom_toTopOf="@id/tilVerifyCode" />
+            app:layout_constraintBottom_toTopOf="@id/tilVerifyCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilVerifyCode"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:layout_marginHorizontal="8dp"
@@ -96,7 +100,9 @@
             app:boxStrokeColor="@color/racing_red_light"
             app:hintTextColor="@color/racing_red_light"
             android:textColorHint="@color/text_secondary"
-            app:layout_constraintBottom_toTopOf="@id/btnVerifySms">
+            app:layout_constraintBottom_toTopOf="@id/btnVerifySms"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etVerifyCode"
@@ -108,12 +114,14 @@
 
         <Button
             android:id="@+id/btnVerifySms"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:text="Verificar Código"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
