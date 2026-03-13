@@ -39,12 +39,12 @@ class CarAdapter(
         if (!car.imageUrl.isNullOrBlank()) {
             Picasso.get()
                 .load(car.imageUrl)
-                .placeholder(android.R.drawable.ic_menu_report_image)
-                .error(android.R.drawable.stat_notify_error)
+                .placeholder(R.drawable.ic_download)
+                .error(R.drawable.ic_error)
                 .transform(CircleTransform())
                 .into(holder.ivCar)
         } else {
-            holder.ivCar.setImageResource(android.R.drawable.ic_menu_report_image)
+            holder.ivCar.setImageResource(R.drawable.ic_download)
         }
 
         // Configura o clique no item

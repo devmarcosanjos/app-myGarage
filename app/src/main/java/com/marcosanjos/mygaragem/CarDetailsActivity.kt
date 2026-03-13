@@ -15,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.marcosanjos.mygaragem.databinding.ActivityCarDetailsBinding
 import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.service.Result
@@ -94,11 +95,22 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             val result = safeApiCall { RetrofitClient.apiService.deleteCar(id) }
             withContext(Dispatchers.Main) {
                 if (result is Result.Success) {
+                    deleteImageFromFirebase(currentCar?.imageUrl)
                     Toast.makeText(this@CarDetailsActivity, "Carro excluído!", Toast.LENGTH_SHORT).show()
                     setResult(RESULT_OK)
                     finish()
                 }
             }
+        }
+    }
+
+    private fun deleteImageFromFirebase(imageUrl: String?) {
+        if (imageUrl.isNullOrEmpty()) return
+        try {
+            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+            storageRef.delete()
+        } catch (e: Exception) {
+            // Imagem pode ser uma URL externa (não do Firebase), ignora silenciosamente
         }
     }
 
@@ -148,6 +160,11 @@ class CarDetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.tvDetailName.text = car.name
         binding.tvDetailYear.text = "Ano: ${car.year}"
         binding.tvDetailLicence.text = "Placa: ${car.licence}"
-        Picasso.get().load(car.imageUrl).transform(CircleTransform()).into(binding.ivDetailCar)
+        Picasso.get()
+            .load(car.imageUrl)
+            .placeholder(R.drawable.ic_download)
+            .error(R.drawable.ic_error)
+            .transform(CircleTransform())
+            .into(binding.ivDetailCar)
     }
 }

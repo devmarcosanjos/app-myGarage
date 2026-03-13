@@ -6,17 +6,22 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.firebase.auth.FirebaseAuth
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.marcosanjos.mygaragem.adapter.CarAdapter
+import com.marcosanjos.mygaragem.database.DatabaseBuilder
+import com.marcosanjos.mygaragem.database.UserLocation
 import com.marcosanjos.mygaragem.databinding.ActivityMainBinding
 import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.service.Result
@@ -65,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        DatabaseBuilder.getInstance(this)
 
         setupToolbar()
         setupRecyclerView()
@@ -130,6 +136,14 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
                 Log.d("MainActivity", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
+                CoroutineScope(Dispatchers.IO).launch {
+                    DatabaseBuilder.getInstance().userLocationDao().insert(
+                        UserLocation(
+                            latitude = location.latitude,
+                            longitude = location.longitude
+                        )
+                    )
+                }
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Erro ao obter a localização", Toast.LENGTH_SHORT).show()
@@ -150,5 +164,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleError(code: Int, message: String) {
         Toast.makeText(this, "Erro ($code): $message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_logout -> {
+                onLogout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun onLogout() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

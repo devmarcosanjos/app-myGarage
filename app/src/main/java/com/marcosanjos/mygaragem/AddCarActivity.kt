@@ -3,13 +3,18 @@ package com.marcosanjos.mygaragem
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
+import java.io.ByteArrayOutputStream
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -26,6 +31,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.marcosanjos.mygaragem.databinding.ActivityAddCarBinding
 import com.marcosanjos.mygaragem.model.Car
 import com.marcosanjos.mygaragem.model.CarLocation
@@ -52,28 +58,37 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
     private var photoUri: Uri? = null
     private var finalImageUrl: String? = null
 
-    // Launcher para a Câmera
-    private val takePhotoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
+    private var imageFile: File? = null
+
+    // Launcher para a Câmera (mesmo padrão do mentor)
+    private val cameraLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == RESULT_OK) {
             photoUri?.let { uri ->
                 binding.ivAddPreview.setImageURI(uri)
-                finalImageUrl = uri.toString()
                 binding.tilAddImageUrl.visibility = View.GONE
             }
         }
     }
 
-    // Launcher para Permissões Múltiplas (Câmera e Localização)
-    private val requestPermissionLauncher = registerForActivityResult(
+    // Launcher para permissões iniciais (localização)
+    private val initialPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true) {
             getCurrentLocation()
         }
-        if (permissions[Manifest.permission.CAMERA] == false) {
-            Toast.makeText(this, "Permissão da câmera é necessária para tirar fotos", Toast.LENGTH_SHORT).show()
-        } else if (permissions[Manifest.permission.CAMERA] == true) {
+    }
+
+    // Launcher para permissão da câmera (ao clicar no botão)
+    private val cameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
             openCamera()
+        } else {
+            Toast.makeText(this, "Permissão da câmera é necessária para tirar fotos", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -111,13 +126,14 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
             } else {
-                requestPermissionLauncher.launch(arrayOf(Manifest.permission.CAMERA))
+                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
 
         // Botão para Abrir campo de URL
         binding.btnAddUrl.setOnClickListener {
             binding.tilAddImageUrl.visibility = View.VISIBLE
+            photoUri = null // Resetar foto se o usuário preferir URL
         }
 
         // Monitorar a digitação da URL para mostrar o preview
@@ -126,29 +142,40 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
                 val url = binding.etAddImageUrl.text.toString().trim()
                 if (url.isNotEmpty()) {
                     finalImageUrl = url
-                    Picasso.get().load(url).into(binding.ivAddPreview)
+                    Picasso.get()
+                        .load(url)
+                        .placeholder(R.drawable.ic_download)
+                        .error(R.drawable.ic_error)
+                        .into(binding.ivAddPreview)
                 }
             }
         }
 
         binding.btnSaveNewCar.setOnClickListener {
-            saveCar()
+            validateAndSave()
         }
     }
 
     private fun openCamera() {
         try {
-            val photoFile = File.createTempFile(
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            imageFile = File.createTempFile(
                 "IMG_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())}_",
                 ".jpg",
-                getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                storageDir
             )
-            val uri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", photoFile)
+            val uri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                imageFile!!
+            )
             photoUri = uri
-            takePhotoLauncher.launch(uri)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+            cameraLauncher.launch(intent)
         } catch (e: Exception) {
             Log.e("CAMERA", "Erro ao criar arquivo de imagem", e)
-            Toast.makeText(this, "Erro ao abrir a câmera", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Erro ao abrir a câmera: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -174,11 +201,11 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun checkInitialPermissions() {
-        val permissions = mutableListOf(Manifest.permission.ACCESS_FINE_LOCATION)
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            initialPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+        } else {
+            getCurrentLocation()
         }
-        requestPermissionLauncher.launch(permissions.toTypedArray())
     }
 
     private fun getCurrentLocation() {
@@ -193,12 +220,11 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun saveCar() {
+    private fun validateAndSave() {
         val name = binding.etAddName.text.toString().trim()
         val year = binding.etAddYear.text.toString().trim()
         val licence = binding.etAddLicence.text.toString().trim()
         
-        // Se a URL estiver visível e preenchida, ela tem prioridade sobre a foto local
         if (binding.tilAddImageUrl.isVisible) {
             val url = binding.etAddImageUrl.text.toString().trim()
             if (url.isNotEmpty()) finalImageUrl = url
@@ -216,18 +242,57 @@ class AddCarActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (!isValid) return
 
+        // Desabilita botão para evitar múltiplos cliques
+        binding.btnSaveNewCar.isEnabled = false
+
+        if (photoUri != null) {
+            uploadImageAndSave(name, year, licence)
+        } else {
+            saveCarToApi(name, year, licence, finalImageUrl)
+        }
+    }
+
+    private fun uploadImageAndSave(name: String, year: String, licence: String) {
+        val storageRef = FirebaseStorage.getInstance().reference
+        val fileName = "cars/${UUID.randomUUID()}.jpg"
+        val imageRef = storageRef.child(fileName)
+
+        imageFile?.let { file ->
+            Toast.makeText(this, "Fazendo upload da imagem...", Toast.LENGTH_SHORT).show()
+
+            val bitmap = BitmapFactory.decodeFile(file.path)
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 80, baos)
+            val data = baos.toByteArray()
+
+            imageRef.putBytes(data)
+                .addOnSuccessListener {
+                    imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                        saveCarToApi(name, year, licence, downloadUri.toString())
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FIREBASE_STORAGE", "Erro no upload", e)
+                    Toast.makeText(this, "Erro ao enviar imagem: ${e.message}", Toast.LENGTH_SHORT).show()
+                    binding.btnSaveNewCar.isEnabled = true
+                }
+        }
+    }
+
+    private fun saveCarToApi(name: String, year: String, licence: String, imageUrl: String?) {
         val newCar = Car(
             id = UUID.randomUUID().toString(),
             name = name,
             year = year,
             licence = licence,
-            imageUrl = finalImageUrl,
+            imageUrl = imageUrl,
             place = CarLocation(selectedLocation.latitude, selectedLocation.longitude)
         )
 
         CoroutineScope(Dispatchers.IO).launch {
             val result = safeApiCall { RetrofitClient.apiService.addCar(newCar) }
             withContext(Dispatchers.Main) {
+                binding.btnSaveNewCar.isEnabled = true
                 if (result is Result.Success) {
                     Toast.makeText(this@AddCarActivity, "Carro adicionado com sucesso!", Toast.LENGTH_SHORT).show()
                     setResult(RESULT_OK)
