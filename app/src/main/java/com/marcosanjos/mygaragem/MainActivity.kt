@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var allCars: List<Car> = emptyList()
     
     // Launcher para capturar o retorno da tela de detalhes ou adição
     private val detailsLauncher = registerForActivityResult(
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
         setupRecyclerView()
         setupSwipeRefresh()
+        setupFilters()
         fetchCars()
         checkLocationPermissionAndRequest()
 
@@ -93,7 +95,21 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
+    private fun setupFilters() {
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
+            val sorted = when (checkedIds.first()) {
+                R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
+                R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
+                else -> allCars // Recentes = ordem original da API
+            }
+            showCars(sorted)
+        }
+    }
+
     private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.racing_red)
+        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white)
         binding.swipeRefreshLayout.setOnRefreshListener {
             fetchCars()
         }
@@ -155,7 +171,20 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()
         }
 
-        binding.recyclerView.adapter = CarAdapter(cars) { car -> 
+        allCars = cars
+
+        // Aplica o filtro atual
+        val checkedId = binding.chipGroupFilter.checkedChipId
+        val sorted = when (checkedId) {
+            R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
+            R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
+            else -> allCars
+        }
+        showCars(sorted)
+    }
+
+    private fun showCars(cars: List<Car>) {
+        binding.recyclerView.adapter = CarAdapter(cars) { car ->
             val intent = Intent(this, CarDetailsActivity::class.java)
             intent.putExtra("car_id", car.id)
             detailsLauncher.launch(intent)

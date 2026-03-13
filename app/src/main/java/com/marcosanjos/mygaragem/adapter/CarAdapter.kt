@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.marcosanjos.mygaragem.R
 import com.marcosanjos.mygaragem.model.Car
-import com.marcosanjos.mygaragem.ui.CircleTransform
 import com.squareup.picasso.Picasso
 
 class CarAdapter(
@@ -41,7 +40,6 @@ class CarAdapter(
                 .load(car.imageUrl)
                 .placeholder(R.drawable.ic_download)
                 .error(R.drawable.ic_error)
-                .transform(CircleTransform())
                 .into(holder.ivCar)
         } else {
             holder.ivCar.setImageResource(R.drawable.ic_download)
