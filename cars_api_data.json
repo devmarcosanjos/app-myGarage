@@ -1,0 +1,1165 @@
+[
+  {
+    "id": "001",
+    "imageUrl": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800",
+    "year": "2018/2019",
+    "name": "Mercedes-Benz AMG GT",
+    "licence": "ELH-9305",
+    "place": {
+      "lat": -23.5431,
+      "long": -46.6346
+    }
+  },
+  {
+    "id": "002",
+    "imageUrl": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+    "year": "2024/2024",
+    "name": "Porsche 911 Carrera",
+    "licence": "YZV-6512",
+    "place": {
+      "lat": -22.878,
+      "long": -43.1571
+    }
+  },
+  {
+    "id": "003",
+    "imageUrl": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+    "year": "2021/2022",
+    "name": "BMW M4 Competition",
+    "licence": "CQF-8282",
+    "place": {
+      "lat": -19.955,
+      "long": -43.8956
+    }
+  },
+  {
+    "id": "004",
+    "imageUrl": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+    "year": "2015/2015",
+    "name": "Lamborghini Huracán",
+    "licence": "BLJ-2341",
+    "place": {
+      "lat": -15.7643,
+      "long": -47.887
+    }
+  },
+  {
+    "id": "005",
+    "imageUrl": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800",
+    "year": "2020/2021",
+    "name": "Audi RS7 Sportback",
+    "licence": "AOX-5707",
+    "place": {
+      "lat": -12.9494,
+      "long": -38.5436
+    }
+  },
+  {
+    "id": "006",
+    "imageUrl": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800",
+    "year": "2018/2018",
+    "name": "Chevrolet Corvette C7",
+    "licence": "KQP-7279",
+    "place": {
+      "lat": -8.0434,
+      "long": -34.8927
+    }
+  },
+  {
+    "id": "007",
+    "imageUrl": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800",
+    "year": "2023/2024",
+    "name": "Ford Mustang GT",
+    "licence": "MBY-8888",
+    "place": {
+      "lat": -1.4655,
+      "long": -48.4582
+    }
+  },
+  {
+    "id": "008",
+    "imageUrl": "https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800",
+    "year": "2022/2023",
+    "name": "Tesla Model S Plaid",
+    "licence": "TKW-6351",
+    "place": {
+      "lat": -3.0827,
+      "long": -59.9965
+    }
+  },
+  {
+    "id": "009",
+    "imageUrl": "https://images.unsplash.com/photo-1542362567-b07e54358753?w=800",
+    "year": "2020/2021",
+    "name": "Ferrari 488 GTB",
+    "licence": "MYJ-4290",
+    "place": {
+      "lat": -25.457,
+      "long": -49.2735
+    }
+  },
+  {
+    "id": "010",
+    "imageUrl": "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=800",
+    "year": "2015/2015",
+    "name": "McLaren 720S",
+    "licence": "ZGO-9598",
+    "place": {
+      "lat": -27.5603,
+      "long": -48.5873
+    }
+  },
+  {
+    "id": "011",
+    "imageUrl": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800",
+    "year": "2020/2021",
+    "name": "Nissan GT-R Nismo",
+    "licence": "TER-3995",
+    "place": {
+      "lat": -30.0194,
+      "long": -51.2258
+    }
+  },
+  {
+    "id": "012",
+    "imageUrl": "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800",
+    "year": "2020/2020",
+    "name": "Dodge Challenger SRT",
+    "licence": "LWS-5385",
+    "place": {
+      "lat": -20.2821,
+      "long": -40.3225
+    }
+  },
+  {
+    "id": "013",
+    "imageUrl": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=800",
+    "year": "2024/2025",
+    "name": "Toyota Supra GR",
+    "licence": "XOC-7819",
+    "place": {
+      "lat": -16.7306,
+      "long": -49.2747
+    }
+  },
+  {
+    "id": "014",
+    "imageUrl": "https://images.unsplash.com/photo-1546614042-7df3c8c22965?w=800",
+    "year": "2023/2023",
+    "name": "Jaguar F-Type R",
+    "licence": "PZT-9912",
+    "place": {
+      "lat": -2.5577,
+      "long": -44.263
+    }
+  },
+  {
+    "id": "015",
+    "imageUrl": "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=800",
+    "year": "2016/2016",
+    "name": "Aston Martin Vantage",
+    "licence": "SUK-8026",
+    "place": {
+      "lat": -5.8081,
+      "long": -35.1642
+    }
+  },
+  {
+    "id": "016",
+    "imageUrl": "https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=800",
+    "year": "2021/2021",
+    "name": "Maserati GranTurismo",
+    "licence": "IEX-5347",
+    "place": {
+      "lat": -10.9213,
+      "long": -37.1043
+    }
+  },
+  {
+    "id": "017",
+    "imageUrl": "https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=800",
+    "year": "2018/2019",
+    "name": "Alfa Romeo Giulia QV",
+    "licence": "AHV-4335",
+    "place": {
+      "lat": -22.3708,
+      "long": -49.0984
+    }
+  },
+  {
+    "id": "018",
+    "imageUrl": "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800",
+    "year": "2020/2020",
+    "name": "Lexus LC 500",
+    "licence": "KIK-9937",
+    "place": {
+      "lat": -21.1902,
+      "long": -47.7912
+    }
+  },
+  {
+    "id": "019",
+    "imageUrl": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800",
+    "year": "2022/2022",
+    "name": "Bentley Continental GT",
+    "licence": "HQM-2685",
+    "place": {
+      "lat": -23.2743,
+      "long": -51.197
+    }
+  },
+  {
+    "id": "020",
+    "imageUrl": "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800",
+    "year": "2022/2022",
+    "name": "Rolls-Royce Wraith",
+    "licence": "JYT-8174",
+    "place": {
+      "lat": -20.7702,
+      "long": -49.3261
+    }
+  },
+  {
+    "id": "021",
+    "imageUrl": "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=800",
+    "year": "2023/2023",
+    "name": "Porsche Taycan Turbo",
+    "licence": "ESW-6618",
+    "place": {
+      "lat": -23.5886,
+      "long": -46.6196
+    }
+  },
+  {
+    "id": "022",
+    "imageUrl": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800",
+    "year": "2019/2020",
+    "name": "BMW i8",
+    "licence": "BQF-9398",
+    "place": {
+      "lat": -22.8625,
+      "long": -43.1706
+    }
+  },
+  {
+    "id": "023",
+    "imageUrl": "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=800",
+    "year": "2022/2022",
+    "name": "Audi R8 V10",
+    "licence": "DLG-1359",
+    "place": {
+      "lat": -19.8826,
+      "long": -43.9187
+    }
+  },
+  {
+    "id": "024",
+    "imageUrl": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800",
+    "year": "2024/2025",
+    "name": "Mercedes-AMG C63",
+    "licence": "SOR-6166",
+    "place": {
+      "lat": -15.7351,
+      "long": -47.9215
+    }
+  },
+  {
+    "id": "025",
+    "imageUrl": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800",
+    "year": "2019/2020",
+    "name": "Volkswagen Golf GTI",
+    "licence": "FEG-5973",
+    "place": {
+      "lat": -12.9627,
+      "long": -38.4893
+    }
+  },
+  {
+    "id": "026",
+    "imageUrl": "https://images.unsplash.com/photo-1541899481282-d53bffe3c0d6?w=800",
+    "year": "2015/2016",
+    "name": "Honda Civic Type R",
+    "licence": "VKS-3998",
+    "place": {
+      "lat": -8.0582,
+      "long": -34.8568
+    }
+  },
+  {
+    "id": "027",
+    "imageUrl": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800",
+    "year": "2021/2022",
+    "name": "Subaru WRX STI",
+    "licence": "DEF-4810",
+    "place": {
+      "lat": -1.4426,
+      "long": -48.5296
+    }
+  },
+  {
+    "id": "028",
+    "imageUrl": "https://images.unsplash.com/photo-1570356528233-b442cf2de345?w=800",
+    "year": "2015/2015",
+    "name": "Mitsubishi Lancer Evo",
+    "licence": "XQW-2004",
+    "place": {
+      "lat": -3.0839,
+      "long": -60.0169
+    }
+  },
+  {
+    "id": "029",
+    "imageUrl": "https://images.unsplash.com/photo-1493238792000-8113da705763?w=800",
+    "year": "2020/2020",
+    "name": "Mazda MX-5 Miata",
+    "licence": "DUC-7477",
+    "place": {
+      "lat": -25.4069,
+      "long": -49.2309
+    }
+  },
+  {
+    "id": "030",
+    "imageUrl": "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?w=800",
+    "year": "2023/2023",
+    "name": "Chevrolet Camaro ZL1",
+    "licence": "NFX-6094",
+    "place": {
+      "lat": -27.6273,
+      "long": -48.573
+    }
+  },
+  {
+    "id": "031",
+    "imageUrl": "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800",
+    "year": "2023/2023",
+    "name": "Ford GT",
+    "licence": "HFK-5691",
+    "place": {
+      "lat": -30.0683,
+      "long": -51.2264
+    }
+  },
+  {
+    "id": "032",
+    "imageUrl": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800",
+    "year": "2021/2022",
+    "name": "Bugatti Chiron",
+    "licence": "SIC-7359",
+    "place": {
+      "lat": -20.3417,
+      "long": -40.3129
+    }
+  },
+  {
+    "id": "033",
+    "imageUrl": "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=800",
+    "year": "2020/2021",
+    "name": "Pagani Huayra",
+    "licence": "VDZ-5406",
+    "place": {
+      "lat": -16.7349,
+      "long": -49.2618
+    }
+  },
+  {
+    "id": "034",
+    "imageUrl": "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=800",
+    "year": "2021/2022",
+    "name": "Koenigsegg Agera RS",
+    "licence": "YUX-5934",
+    "place": {
+      "lat": -2.5586,
+      "long": -44.3241
+    }
+  },
+  {
+    "id": "035",
+    "imageUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800",
+    "year": "2023/2023",
+    "name": "Rimac Nevera",
+    "licence": "XXK-5095",
+    "place": {
+      "lat": -5.7459,
+      "long": -35.2107
+    }
+  },
+  {
+    "id": "036",
+    "imageUrl": "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800",
+    "year": "2019/2019",
+    "name": "Lucid Air GT",
+    "licence": "LYI-4365",
+    "place": {
+      "lat": -10.9183,
+      "long": -37.1163
+    }
+  },
+  {
+    "id": "037",
+    "imageUrl": "https://images.unsplash.com/photo-1565098772267-60af42b81ef2?w=800",
+    "year": "2020/2021",
+    "name": "Porsche Cayman GT4",
+    "licence": "IGH-9464",
+    "place": {
+      "lat": -22.337,
+      "long": -49.1037
+    }
+  },
+  {
+    "id": "038",
+    "imageUrl": "https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=800",
+    "year": "2022/2023",
+    "name": "BMW M2 Competition",
+    "licence": "EMX-8597",
+    "place": {
+      "lat": -21.2219,
+      "long": -47.859
+    }
+  },
+  {
+    "id": "039",
+    "imageUrl": "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800",
+    "year": "2018/2018",
+    "name": "Audi TT RS",
+    "licence": "OKN-4872",
+    "place": {
+      "lat": -23.2761,
+      "long": -51.2084
+    }
+  },
+  {
+    "id": "040",
+    "imageUrl": "https://images.unsplash.com/photo-1541443131876-44b03de101c5?w=800",
+    "year": "2024/2024",
+    "name": "Mercedes-AMG A45",
+    "licence": "WKU-4834",
+    "place": {
+      "lat": -20.8076,
+      "long": -49.3784
+    }
+  },
+  {
+    "id": "041",
+    "imageUrl": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800",
+    "year": "2020/2021",
+    "name": "Toyota GR86",
+    "licence": "JKL-8434",
+    "place": {
+      "lat": -23.5331,
+      "long": -46.5991
+    }
+  },
+  {
+    "id": "042",
+    "imageUrl": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+    "year": "2018/2018",
+    "name": "Hyundai i30 N",
+    "licence": "SUX-4796",
+    "place": {
+      "lat": -22.9332,
+      "long": -43.1674
+    }
+  },
+  {
+    "id": "043",
+    "imageUrl": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+    "year": "2021/2021",
+    "name": "Kia Stinger GT",
+    "licence": "OWC-6479",
+    "place": {
+      "lat": -19.9483,
+      "long": -43.9031
+    }
+  },
+  {
+    "id": "044",
+    "imageUrl": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+    "year": "2022/2023",
+    "name": "Genesis G70",
+    "licence": "SHJ-2242",
+    "place": {
+      "lat": -15.8094,
+      "long": -47.9662
+    }
+  },
+  {
+    "id": "045",
+    "imageUrl": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800",
+    "year": "2018/2018",
+    "name": "Volvo S60 Polestar",
+    "licence": "OOJ-4362",
+    "place": {
+      "lat": -12.9455,
+      "long": -38.539
+    }
+  },
+  {
+    "id": "046",
+    "imageUrl": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800",
+    "year": "2019/2019",
+    "name": "Peugeot 508 GT",
+    "licence": "VIO-1488",
+    "place": {
+      "lat": -8.045,
+      "long": -34.8939
+    }
+  },
+  {
+    "id": "047",
+    "imageUrl": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800",
+    "year": "2016/2017",
+    "name": "Renault Megane RS",
+    "licence": "XHK-2873",
+    "place": {
+      "lat": -1.4567,
+      "long": -48.5211
+    }
+  },
+  {
+    "id": "048",
+    "imageUrl": "https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800",
+    "year": "2017/2018",
+    "name": "Fiat 500 Abarth",
+    "licence": "AJA-6529",
+    "place": {
+      "lat": -3.1341,
+      "long": -59.9816
+    }
+  },
+  {
+    "id": "049",
+    "imageUrl": "https://images.unsplash.com/photo-1542362567-b07e54358753?w=800",
+    "year": "2016/2016",
+    "name": "Mini Cooper JCW",
+    "licence": "XRK-8634",
+    "place": {
+      "lat": -25.4404,
+      "long": -49.2336
+    }
+  },
+  {
+    "id": "050",
+    "imageUrl": "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=800",
+    "year": "2024/2024",
+    "name": "Jeep Grand Cherokee SRT",
+    "licence": "XCN-5811",
+    "place": {
+      "lat": -27.5754,
+      "long": -48.5202
+    }
+  },
+  {
+    "id": "051",
+    "imageUrl": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800",
+    "year": "2019/2020",
+    "name": "Range Rover Sport SVR",
+    "licence": "OVQ-6368",
+    "place": {
+      "lat": -30.0471,
+      "long": -51.185
+    }
+  },
+  {
+    "id": "052",
+    "imageUrl": "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800",
+    "year": "2021/2022",
+    "name": "Porsche Macan GTS",
+    "licence": "ZBB-7331",
+    "place": {
+      "lat": -20.292,
+      "long": -40.3192
+    }
+  },
+  {
+    "id": "053",
+    "imageUrl": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=800",
+    "year": "2019/2020",
+    "name": "BMW X6 M",
+    "licence": "WFN-9223",
+    "place": {
+      "lat": -16.7366,
+      "long": -49.3034
+    }
+  },
+  {
+    "id": "054",
+    "imageUrl": "https://images.unsplash.com/photo-1546614042-7df3c8c22965?w=800",
+    "year": "2020/2021",
+    "name": "Audi SQ8",
+    "licence": "FRI-7290",
+    "place": {
+      "lat": -2.5774,
+      "long": -44.2693
+    }
+  },
+  {
+    "id": "055",
+    "imageUrl": "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=800",
+    "year": "2019/2019",
+    "name": "Mercedes-AMG GLE 63",
+    "licence": "ZQJ-2475",
+    "place": {
+      "lat": -5.7523,
+      "long": -35.1696
+    }
+  },
+  {
+    "id": "056",
+    "imageUrl": "https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=800",
+    "year": "2021/2021",
+    "name": "Lamborghini Urus",
+    "licence": "VLA-5719",
+    "place": {
+      "lat": -10.9123,
+      "long": -37.0312
+    }
+  },
+  {
+    "id": "057",
+    "imageUrl": "https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=800",
+    "year": "2015/2016",
+    "name": "Ferrari Roma",
+    "licence": "ZSE-2853",
+    "place": {
+      "lat": -22.3679,
+      "long": -49.0192
+    }
+  },
+  {
+    "id": "058",
+    "imageUrl": "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800",
+    "year": "2022/2023",
+    "name": "McLaren GT",
+    "licence": "RBO-7515",
+    "place": {
+      "lat": -21.1779,
+      "long": -47.8265
+    }
+  },
+  {
+    "id": "059",
+    "imageUrl": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800",
+    "year": "2015/2016",
+    "name": "Aston Martin DBX",
+    "licence": "HVU-8075",
+    "place": {
+      "lat": -23.3199,
+      "long": -51.192
+    }
+  },
+  {
+    "id": "060",
+    "imageUrl": "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800",
+    "year": "2023/2023",
+    "name": "Bentley Bentayga Speed",
+    "licence": "QQH-7009",
+    "place": {
+      "lat": -20.858,
+      "long": -49.3551
+    }
+  },
+  {
+    "id": "061",
+    "imageUrl": "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=800",
+    "year": "2018/2018",
+    "name": "Tesla Model 3 Performance",
+    "licence": "NIR-8260",
+    "place": {
+      "lat": -23.535,
+      "long": -46.6582
+    }
+  },
+  {
+    "id": "062",
+    "imageUrl": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=800",
+    "year": "2016/2016",
+    "name": "Chevrolet Bolt EV",
+    "licence": "KDX-4324",
+    "place": {
+      "lat": -22.9238,
+      "long": -43.2021
+    }
+  },
+  {
+    "id": "063",
+    "imageUrl": "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=800",
+    "year": "2024/2025",
+    "name": "Ford Mach-E GT",
+    "licence": "RRP-7793",
+    "place": {
+      "lat": -19.8885,
+      "long": -43.933
+    }
+  },
+  {
+    "id": "064",
+    "imageUrl": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800",
+    "year": "2018/2019",
+    "name": "Rivian R1T",
+    "licence": "MCF-7449",
+    "place": {
+      "lat": -15.8163,
+      "long": -47.9563
+    }
+  },
+  {
+    "id": "065",
+    "imageUrl": "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800",
+    "year": "2023/2023",
+    "name": "Porsche 718 Boxster",
+    "licence": "RGM-7695",
+    "place": {
+      "lat": -12.9659,
+      "long": -38.532
+    }
+  },
+  {
+    "id": "066",
+    "imageUrl": "https://images.unsplash.com/photo-1541899481282-d53bffe3c0d6?w=800",
+    "year": "2020/2021",
+    "name": "BMW Z4 M40i",
+    "licence": "ZYU-4568",
+    "place": {
+      "lat": -8.0206,
+      "long": -34.8567
+    }
+  },
+  {
+    "id": "067",
+    "imageUrl": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800",
+    "year": "2020/2020",
+    "name": "Mercedes-AMG GT R",
+    "licence": "XEO-9193",
+    "place": {
+      "lat": -1.4266,
+      "long": -48.5104
+    }
+  },
+  {
+    "id": "068",
+    "imageUrl": "https://images.unsplash.com/photo-1570356528233-b442cf2de345?w=800",
+    "year": "2020/2020",
+    "name": "Audi RS5 Sportback",
+    "licence": "YAU-1027",
+    "place": {
+      "lat": -3.1347,
+      "long": -60.0009
+    }
+  },
+  {
+    "id": "069",
+    "imageUrl": "https://images.unsplash.com/photo-1493238792000-8113da705763?w=800",
+    "year": "2015/2015",
+    "name": "Nissan 370Z Nismo",
+    "licence": "WRR-4598",
+    "place": {
+      "lat": -25.4632,
+      "long": -49.2519
+    }
+  },
+  {
+    "id": "070",
+    "imageUrl": "https://images.unsplash.com/photo-1486496146582-9ffcd0b2b2b7?w=800",
+    "year": "2024/2024",
+    "name": "Toyota Land Cruiser",
+    "licence": "ZPK-5305",
+    "place": {
+      "lat": -27.6441,
+      "long": -48.499
+    }
+  },
+  {
+    "id": "071",
+    "imageUrl": "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800",
+    "year": "2017/2017",
+    "name": "Jeep Wrangler Rubicon",
+    "licence": "MEG-6882",
+    "place": {
+      "lat": -30.0723,
+      "long": -51.1943
+    }
+  },
+  {
+    "id": "072",
+    "imageUrl": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800",
+    "year": "2022/2023",
+    "name": "Ford Bronco Raptor",
+    "licence": "XCB-1349",
+    "place": {
+      "lat": -20.3172,
+      "long": -40.3293
+    }
+  },
+  {
+    "id": "073",
+    "imageUrl": "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=800",
+    "year": "2015/2016",
+    "name": "Dodge Charger Hellcat",
+    "licence": "BLD-7627",
+    "place": {
+      "lat": -16.7015,
+      "long": -49.2513
+    }
+  },
+  {
+    "id": "074",
+    "imageUrl": "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=800",
+    "year": "2021/2021",
+    "name": "Cadillac CT5-V Blackwing",
+    "licence": "NGH-5497",
+    "place": {
+      "lat": -2.4848,
+      "long": -44.2513
+    }
+  },
+  {
+    "id": "075",
+    "imageUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800",
+    "year": "2019/2019",
+    "name": "Chrysler 300 SRT8",
+    "licence": "SAP-7716",
+    "place": {
+      "lat": -5.8271,
+      "long": -35.1961
+    }
+  },
+  {
+    "id": "076",
+    "imageUrl": "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800",
+    "year": "2019/2020",
+    "name": "Lincoln Continental",
+    "licence": "KDU-3720",
+    "place": {
+      "lat": -10.9749,
+      "long": -37.04
+    }
+  },
+  {
+    "id": "077",
+    "imageUrl": "https://images.unsplash.com/photo-1565098772267-60af42b81ef2?w=800",
+    "year": "2023/2024",
+    "name": "Infiniti Q60 Red Sport",
+    "licence": "HZM-4926",
+    "place": {
+      "lat": -22.2866,
+      "long": -49.1035
+    }
+  },
+  {
+    "id": "078",
+    "imageUrl": "https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=800",
+    "year": "2016/2017",
+    "name": "Acura NSX Type S",
+    "licence": "YUX-4129",
+    "place": {
+      "lat": -21.2176,
+      "long": -47.8584
+    }
+  },
+  {
+    "id": "079",
+    "imageUrl": "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800",
+    "year": "2017/2018",
+    "name": "Honda S2000",
+    "licence": "GIV-6767",
+    "place": {
+      "lat": -23.3464,
+      "long": -51.1966
+    }
+  },
+  {
+    "id": "080",
+    "imageUrl": "https://images.unsplash.com/photo-1541443131876-44b03de101c5?w=800",
+    "year": "2017/2017",
+    "name": "Mazda RX-7 FD",
+    "licence": "YOC-8644",
+    "place": {
+      "lat": -20.8537,
+      "long": -49.3656
+    }
+  },
+  {
+    "id": "081",
+    "imageUrl": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800",
+    "year": "2017/2018",
+    "name": "Nissan Silvia S15",
+    "licence": "BID-7859",
+    "place": {
+      "lat": -23.5189,
+      "long": -46.5929
+    }
+  },
+  {
+    "id": "082",
+    "imageUrl": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+    "year": "2020/2020",
+    "name": "Toyota AE86 Trueno",
+    "licence": "TUB-6861",
+    "place": {
+      "lat": -22.9459,
+      "long": -43.1301
+    }
+  },
+  {
+    "id": "083",
+    "imageUrl": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+    "year": "2016/2016",
+    "name": "Mitsubishi Eclipse GSX",
+    "licence": "XWV-3414",
+    "place": {
+      "lat": -19.8985,
+      "long": -43.9329
+    }
+  },
+  {
+    "id": "084",
+    "imageUrl": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+    "year": "2015/2015",
+    "name": "Subaru BRZ tS",
+    "licence": "HSV-9299",
+    "place": {
+      "lat": -15.7678,
+      "long": -47.9076
+    }
+  },
+  {
+    "id": "085",
+    "imageUrl": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800",
+    "year": "2015/2016",
+    "name": "Volkswagen Scirocco R",
+    "licence": "ULF-2606",
+    "place": {
+      "lat": -12.9842,
+      "long": -38.531
+    }
+  },
+  {
+    "id": "086",
+    "imageUrl": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800",
+    "year": "2020/2021",
+    "name": "Opel Astra OPC",
+    "licence": "ZYZ-8930",
+    "place": {
+      "lat": -8.0014,
+      "long": -34.9236
+    }
+  },
+  {
+    "id": "087",
+    "imageUrl": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800",
+    "year": "2024/2024",
+    "name": "Seat Leon Cupra",
+    "licence": "DUD-1582",
+    "place": {
+      "lat": -1.4376,
+      "long": -48.5356
+    }
+  },
+  {
+    "id": "088",
+    "imageUrl": "https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=800",
+    "year": "2018/2019",
+    "name": "Skoda Octavia RS",
+    "licence": "WQK-4080",
+    "place": {
+      "lat": -3.0939,
+      "long": -60.0216
+    }
+  },
+  {
+    "id": "089",
+    "imageUrl": "https://images.unsplash.com/photo-1542362567-b07e54358753?w=800",
+    "year": "2018/2019",
+    "name": "BMW M5 CS",
+    "licence": "SOJ-2929",
+    "place": {
+      "lat": -25.4643,
+      "long": -49.2735
+    }
+  },
+  {
+    "id": "090",
+    "imageUrl": "https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=800",
+    "year": "2016/2017",
+    "name": "Mercedes-AMG E63 S",
+    "licence": "GUB-9989",
+    "place": {
+      "lat": -27.6418,
+      "long": -48.5824
+    }
+  },
+  {
+    "id": "091",
+    "imageUrl": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800",
+    "year": "2016/2017",
+    "name": "Audi RS6 Avant",
+    "licence": "RML-9765",
+    "place": {
+      "lat": -30.0283,
+      "long": -51.2638
+    }
+  },
+  {
+    "id": "092",
+    "imageUrl": "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800",
+    "year": "2019/2019",
+    "name": "Porsche Panamera Turbo S",
+    "licence": "JVR-2549",
+    "place": {
+      "lat": -20.3187,
+      "long": -40.3152
+    }
+  },
+  {
+    "id": "093",
+    "imageUrl": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=800",
+    "year": "2015/2015",
+    "name": "Ferrari F40",
+    "licence": "MJY-2154",
+    "place": {
+      "lat": -16.7268,
+      "long": -49.2769
+    }
+  },
+  {
+    "id": "094",
+    "imageUrl": "https://images.unsplash.com/photo-1546614042-7df3c8c22965?w=800",
+    "year": "2015/2016",
+    "name": "Lamborghini Countach",
+    "licence": "APM-8167",
+    "place": {
+      "lat": -2.54,
+      "long": -44.3053
+    }
+  },
+  {
+    "id": "095",
+    "imageUrl": "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=800",
+    "year": "2017/2018",
+    "name": "Porsche 959",
+    "licence": "BKR-1085",
+    "place": {
+      "lat": -5.7528,
+      "long": -35.1926
+    }
+  },
+  {
+    "id": "096",
+    "imageUrl": "https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=800",
+    "year": "2015/2016",
+    "name": "McLaren F1",
+    "licence": "OMZ-1662",
+    "place": {
+      "lat": -10.9444,
+      "long": -37.0674
+    }
+  },
+  {
+    "id": "097",
+    "imageUrl": "https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=800",
+    "year": "2022/2022",
+    "name": "Jaguar E-Type",
+    "licence": "YCM-9532",
+    "place": {
+      "lat": -22.2788,
+      "long": -49.0582
+    }
+  },
+  {
+    "id": "098",
+    "imageUrl": "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800",
+    "year": "2024/2025",
+    "name": "Aston Martin DB5",
+    "licence": "ZDD-6676",
+    "place": {
+      "lat": -21.2211,
+      "long": -47.8124
+    }
+  },
+  {
+    "id": "099",
+    "imageUrl": "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800",
+    "year": "2023/2024",
+    "name": "Ferrari 250 GTO",
+    "licence": "OWQ-6563",
+    "place": {
+      "lat": -23.2984,
+      "long": -51.1833
+    }
+  },
+  {
+    "id": "100",
+    "imageUrl": "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800",
+    "year": "2019/2020",
+    "name": "Shelby Cobra 427",
+    "licence": "IPO-4828",
+    "place": {
+      "lat": -20.8597,
+      "long": -49.3666
+    }
+  }
+]
+```
+</details>
+
+---
+
+## 🌍 Principais Funcionalidades Adicionais
+
+### 🔐 Segurança & Acesso
+- **Autenticação OTP:** Login rápido e seguro utilizando validação via SMS através do Firebase Phone Authentication.
+
+### 🚘 Gestão da Garagem
+- **Cadastro Completo:** Inserção de novos veículos com dados detalhados (nome, ano, placa) e captura fotográfica nativa.
+- **Listagem Inteligente:** Filtros dinâmicos (A-Z, Z-A, Recentes) implementados com *Material3 Chips*.
+- **Sistema de Favoritos:** Marcação rápida de veículos preferidos com persistência local utilizando `SharedPreferences`.
+
+### 💾 Persistência e Dados
+- **Offline-First:** Persistência robusta utilizando `Room Database` (SQLite) para garantir o funcionamento e armazenamento de localizações mesmo sem internet.
+
+---
+
+## 📱 Interface e Navegação
+
+O design foi construído seguindo rigorosamente as diretrizes do **Material Design 3**, adotando uma paleta de cores focada em *Racing Red* e tons claros para maximizar o contraste e a legibilidade.
+
+<p align="center">
+  <img src="img/Screenshot_20260313_211316.png" width="280" alt="Tela de Login"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="img/Screenshot_20260313_211336.png" width="280" alt="Listagem de Carros"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="img/Screenshot_20260313_212643.png" width="280" alt="Detalhes do Veículo"/>
+</p>
+
+---
+
+## 🛠️ Stack Tecnológica e Arquitetura
+
+* **Linguagem:** Kotlin
+* **Interface (UI):** XML / ViewBinding
+* **Network:** Retrofit2 & OkHttp3
+* **Imagens:** Picasso / Coil
+* **Backend & Auth:** Firebase Authentication & Storage
+* **Maps:** Google Maps SDK & Google Play Services Location
+* **Banco de Dados Local:** Room Database & SharedPreferences
+
+---
+
+## 🚀 Como Executar o Projeto
+
+1. **Clone o repositório.**
+2. **Configure o Firebase:** Adicione o seu `google-services.json` na pasta `app/`.
+3. **Google Maps:** Adicione sua `API_KEY` no arquivo `local.properties`.
+4. **Sincronize o Gradle** e execute o app no seu dispositivo ou emulador.
+
+---
+
+## 👤 Autor
+
+**Marcos Anjos**
+Especialização em Programação para Dispositivos Móveis - UTFPR
+
+---
+
+**Desenvolvido como projeto prático para consolidar conhecimentos em integração de APIs REST, Firebase e Google Maps.**
