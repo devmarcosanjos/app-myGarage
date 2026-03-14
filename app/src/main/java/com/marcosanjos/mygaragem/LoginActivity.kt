@@ -25,15 +25,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
-
-        // Verifica se já está logado ANTES de inflar o layout
-        if (auth.currentUser != null) {
-            navigateToMainActivity()
-            return
-        }
-
+        
+        // 1. Inflar e definir o layout primeiro para evitar tela preta
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,16 +37,22 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        auth = FirebaseAuth.getInstance()
+
+        // 2. Verifica se já está logado
+        if (auth.currentUser != null) {
+            navigateToMainActivity()
+            return
+        }
+
         setupView()
     }
 
     private fun setupView() {
-        // Desabilita botão SMS se não tiver número
         binding.btnSendSms.isEnabled = false
 
         binding.etPhone.doAfterTextChanged { text ->
             val phone = text.toString().trim()
-            // Habilita somente se tiver mais que apenas o "+55"
             binding.btnSendSms.isEnabled = phone.length > 4
         }
 

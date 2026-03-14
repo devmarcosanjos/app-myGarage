@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
-            fetchCars() // Atualiza a lista se algo foi alterado ou adicionado
+            // Ao voltar de add/edit, forçamos o filtro "Recentes" usando o ID do binding
+            binding.chipGroupFilter.check(binding.chipRecent.id)
+            fetchCars() 
         }
     }
 
@@ -71,8 +73,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        DatabaseBuilder.getInstance(this)
-        FavoritesManager.init(this)
+        
+        try {
+            DatabaseBuilder.getInstance(this)
+            FavoritesManager.init(this)
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Erro ao inicializar: ${e.message}")
+        }
 
         setupToolbar()
         setupRecyclerView()
@@ -81,7 +88,6 @@ class MainActivity : AppCompatActivity() {
         fetchCars()
         checkLocationPermissionAndRequest()
 
-        // Configura o clique no FAB para adicionar novo carro
         binding.fabAddCar.setOnClickListener {
             val intent = Intent(this, AddCarActivity::class.java)
             detailsLauncher.launch(intent)
@@ -97,8 +103,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupFilters() {
-        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
-            if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, _ ->
             applyCurrentFilter()
         }
     }
@@ -106,20 +111,20 @@ class MainActivity : AppCompatActivity() {
     private fun applyCurrentFilter() {
         val checkedId = binding.chipGroupFilter.checkedChipId
         val filtered = when (checkedId) {
-            R.id.chipAZ -> allCars.sortedBy { it.name?.lowercase() }
-            R.id.chipZA -> allCars.sortedByDescending { it.name?.lowercase() }
-            R.id.chipFavorites -> {
+            binding.chipAZ.id -> allCars.sortedBy { it.name?.lowercase() }
+            binding.chipZA.id -> allCars.sortedByDescending { it.name?.lowercase() }
+            binding.chipFavorites.id -> {
                 val favIds = FavoritesManager.getFavoriteIds()
                 allCars.filter { favIds.contains(it.id) }
             }
-            else -> allCars // Recentes = ordem original da API
+            // "Recentes" (chipRecent ou padrão) inverte a lista
+            else -> allCars.reversed()
         }
         showCars(filtered)
     }
 
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setColorSchemeResources(R.color.racing_red)
-        binding.swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.white)
         binding.swipeRefreshLayout.setOnRefreshListener {
             fetchCars()
         }
@@ -143,44 +148,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkLocationPermissionAndRequest() {
         val permission = Manifest.permission.ACCESS_FINE_LOCATION
-        when {
-            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
-                getLastLocation()
-            }
-            else -> {
-                locationPermissionLauncher.launch(permission)
-            }
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            getLastLocation()
+        } else {
+            locationPermissionLauncher.launch(permission)
         }
     }
 
     private fun getLastLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
         }
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            if (location != null) {
-                Log.d("MainActivity", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
-                CoroutineScope(Dispatchers.IO).launch {
-                    DatabaseBuilder.getInstance().userLocationDao().insert(
-                        UserLocation(
-                            latitude = location.latitude,
-                            longitude = location.longitude
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        DatabaseBuilder.getInstance().userLocationDao().insert(
+                            UserLocation(latitude = location.latitude, longitude = location.longitude)
                         )
-                    )
+                    }
                 }
             }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Erro ao obter a localização", Toast.LENGTH_SHORT).show()
+        } catch (e: SecurityException) {
+            Log.e("MainActivity", "Erro de localização: ${e.message}")
         }
     }
 
     private fun handleOnSuccess(cars: List<Car>) {
-        if (cars.isEmpty()) {
-            Toast.makeText(this, "Nenhum carro encontrado", Toast.LENGTH_SHORT).show()
-        }
-
         allCars = cars
         applyCurrentFilter()
     }
@@ -194,8 +189,7 @@ class MainActivity : AppCompatActivity() {
                 detailsLauncher.launch(intent)
             },
             onFavoriteChanged = {
-                // Se estiver no filtro de favoritos, atualiza a lista
-                if (binding.chipGroupFilter.checkedChipId == R.id.chipFavorites) {
+                if (binding.chipGroupFilter.checkedChipId == binding.chipFavorites.id) {
                     applyCurrentFilter()
                 }
             }
